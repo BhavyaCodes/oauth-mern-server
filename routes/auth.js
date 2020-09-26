@@ -3,6 +3,7 @@ const axios = require("axios").default;
 const jwt = require("jsonwebtoken");
 
 const keys = require("../config/keys");
+const User = require("../models/user");
 
 const router = express.Router();
 
@@ -13,7 +14,6 @@ router.get("/auth/google", async (req, res, next) => {
 });
 
 router.get("/auth/google/callback", async (req, res, next) => {
-  console.log(req.query);
   const code = req.query.code;
   const data = await axios.post("https://oauth2.googleapis.com/token", {
     code,
@@ -22,10 +22,12 @@ router.get("/auth/google/callback", async (req, res, next) => {
     redirect_uri: "http://localhost:5000/auth/google/callback",
     grant_type: "authorization_code",
   });
-  console.log(data.data);
   const decoded = jwt.decode(data.data.id_token, { complete: true });
-  console.log(decoded.payload);
-  res.json({ data: data.data });
+  const user = new User({
+    googleId: decoded.payload.sub,
+  });
+  const savedUser = await user.save();
+  res.json({ user: savedUser });
 });
 
 module.exports = router;
