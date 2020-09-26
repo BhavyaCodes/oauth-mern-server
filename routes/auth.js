@@ -2,7 +2,6 @@ const express = require("express");
 const axios = require("axios").default;
 const jwt = require("jsonwebtoken");
 
-const googleApi = require("../api/google");
 const keys = require("../config/keys");
 
 const router = express.Router();
