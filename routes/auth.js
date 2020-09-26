@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios").default;
+const jwt = require("jsonwebtoken");
 
 const googleApi = require("../api/google");
 const keys = require("../config/keys");
@@ -19,7 +20,7 @@ router.get("/auth/google", async (req, res, next) => {
   // 	}
   // })
   res.redirect(
-    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:5000/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=openid&access_type=offline`
+    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:5000/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
   );
 });
 
@@ -34,7 +35,9 @@ router.get("/auth/google/callback", async (req, res, next) => {
     grant_type: "authorization_code",
   });
   console.log(data.data);
-  res.json(data.data);
+  const decoded = jwt.decode(data.data.id_token, { complete: true });
+  console.log(decoded.payload);
+  res.json({ data: data.data });
 });
 
 module.exports = router;
