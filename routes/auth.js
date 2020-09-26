@@ -8,17 +8,6 @@ const keys = require("../config/keys");
 const router = express.Router();
 
 router.get("/auth/google", async (req, res, next) => {
-  // res.redirect("https://www.google.com/");
-  // googleApi.get('/',{
-  // 	params:{
-  // 		redirect_uri:"localhost:5000/auth/google/callback",
-  // 		prompt: "consent",
-  // 		response_type: "code",
-  // 		client_id: keys.googleClientID,
-  // 		scope: 'openid',
-  // 		access_type:'offline'
-  // 	}
-  // })
   res.redirect(
     `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:5000/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
   );
