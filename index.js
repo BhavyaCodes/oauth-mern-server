@@ -8,6 +8,8 @@ const app = express();
 const keys = require("./config/keys");
 const PORT = 5000;
 
+// app.set("trust proxy", true);
+
 app.use(authRoutes);
 
 app.get("/", (req, res, next) => {

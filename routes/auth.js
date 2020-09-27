@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get("/auth/google", async (req, res, next) => {
   res.redirect(
-    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:5000/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
+    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
   );
 });
 
@@ -19,22 +19,37 @@ router.get("/auth/google/callback", async (req, res, next) => {
     code,
     client_id: keys.googleClientID,
     client_secret: keys.googleClientSecret,
-    redirect_uri: "http://localhost:5000/auth/google/callback",
+    redirect_uri: "http://localhost:3000/auth/google/callback",
     grant_type: "authorization_code",
   });
   const decoded = jwt.decode(data.data.id_token, { complete: true });
 
   const existingUser = await User.findOne({ googleId: decoded.payload.sub });
+
   if (existingUser) {
-    // console.log("existing user");
-    return res.json({ user: existingUser });
+    const token = jwt.sign(
+      {
+        _id: existingUser._id,
+      },
+      keys.jwtSecret
+      // { expiresIn: "1h" }
+    );
+    res.cookie("token", token);
+    return res.redirect("/");
   }
   const user = new User({
     googleId: decoded.payload.sub,
   });
   const savedUser = await user.save();
-  // console.log("new user");
-  res.json({ user: savedUser });
+  const token = jwt.sign(
+    {
+      _id: savedUser._id,
+    },
+    keys.jwtSecret
+    // { expiresIn: "1h" }
+  );
+  res.cookie("token", token);
+  res.redirect("/");
 });
 
 module.exports = router;
