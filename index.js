@@ -10,6 +10,7 @@ const keys = require("./config/keys");
 const PORT = 5000;
 
 app.use(express.json());
+app.use(cookieParser());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // * for all domains
   res.setHeader(
@@ -17,11 +18,9 @@ app.use((req, res, next) => {
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
   );
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-
-// app.use(cookieParser);
 
 app.use(authRoutes);
 
@@ -30,10 +29,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.get("/api/ping", (req, res, next) => {
-  console.log("/api/ping");
   res.json({ ping: "pong" });
-  console.log(req.cookies);
-  console.log(req.headers.cookie);
 });
 
 mongoose

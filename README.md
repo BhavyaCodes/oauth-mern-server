@@ -1,3 +1,3 @@
 ## bugs -
 
-- cookie-parser breaking app
+- ~~cookie-parser breaking app~~
