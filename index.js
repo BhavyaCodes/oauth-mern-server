@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 const app = express();
 
@@ -31,6 +32,8 @@ app.get("/", (req, res, next) => {
 app.get("/api/ping", (req, res, next) => {
   res.json({ ping: "pong" });
 });
+
+app.use("/api", userRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

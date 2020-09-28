@@ -23,6 +23,7 @@ router.get("/auth/google/callback", async (req, res, next) => {
     grant_type: "authorization_code",
   });
   const decoded = jwt.decode(data.data.id_token, { complete: true });
+  console.log(decoded);
 
   const existingUser = await User.findOne({ googleId: decoded.payload.sub });
 
@@ -39,6 +40,8 @@ router.get("/auth/google/callback", async (req, res, next) => {
   }
   const user = new User({
     googleId: decoded.payload.sub,
+    name: decoded.payload.name,
+    imageUrl: decoded.payload.picture,
   });
   const savedUser = await user.save();
   const token = jwt.sign(

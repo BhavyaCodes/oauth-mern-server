@@ -21,6 +21,7 @@ const isAuth = (req, res, next) => {
     throw error;
   }
   req._id = decodedToken._id;
+  next();
 };
 
 module.exports = isAuth;
