@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const keys = require("../config/keys");
 const User = require("../models/user");
+const isAuth = require("../middleware/isAuth");
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ router.get("/auth/google/callback", async (req, res, next) => {
       // { expiresIn: "1h" }
     );
     res.cookie("token", token);
+    res.cookie("isLoggedIn", "1");
     return res.redirect("/");
   }
   const user = new User({
@@ -50,12 +52,17 @@ router.get("/auth/google/callback", async (req, res, next) => {
     keys.jwtSecret
     // { expiresIn: "1h" }
   );
+  res.cookie("isLoggedIn", "1");
   res.cookie("token", token);
   res.redirect("/");
 });
 
 router.get("/api/logout", (req, res, next) => {
   res.clearCookie("token");
+  res.status(200).send();
+});
+
+router.get("/api/isloggedin", isAuth, (req, res, next) => {
   res.status(200).send();
 });
 
