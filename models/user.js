@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema(
     },
     name: String,
     imageUrl: String,
+    posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
   },
   { timestamps: true }
 );

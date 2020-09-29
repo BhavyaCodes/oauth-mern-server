@@ -1,4 +1,5 @@
 const Post = require("../models/post");
+const User = require("../models/user");
 
 exports.getPosts = async (req, res, next) => {
   try {
@@ -19,6 +20,9 @@ exports.createPost = async (req, res, next) => {
       body,
     });
     const savedPost = await post.save();
+    const currentUser = await User.findById(req.userId);
+    currentUser.posts.push(savedPost);
+    await currentUser.save();
     res.status(201).send({
       success: true,
     });

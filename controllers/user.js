@@ -2,7 +2,7 @@ const User = require("../models/user");
 
 exports.getUserInfo = async (req, res, next) => {
   try {
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.userId).populate("posts");
     if (!user) {
       const error = new Error("User not found");
       error.statusCode = 404;
