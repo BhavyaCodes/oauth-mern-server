@@ -54,4 +54,9 @@ router.get("/auth/google/callback", async (req, res, next) => {
   res.redirect("/");
 });
 
+router.get("/api/logout", (req, res, next) => {
+  res.clearCookie("token");
+  res.status(200).send();
+});
+
 module.exports = router;
