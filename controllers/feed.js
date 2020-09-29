@@ -1,6 +1,14 @@
 const Post = require("../models/post");
 
-exports.getPosts = (req, res, next) => {};
+exports.getPosts = async (req, res, next) => {
+  try {
+    const posts = await Post.find();
+    res.status(200).json(posts);
+  } catch (error) {
+    error.data = "unable to fetch posts";
+    next(error);
+  }
+};
 
 exports.createPost = async (req, res, next) => {
   try {
