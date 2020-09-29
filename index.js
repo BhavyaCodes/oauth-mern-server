@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const feedRoutes = require("./routes/feed");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.get("/api/ping", (req, res, next) => {
 });
 
 app.use("/api", userRoutes);
+app.use("/api", feedRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

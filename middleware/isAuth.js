@@ -20,7 +20,7 @@ const isAuth = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-  req._id = decodedToken._id;
+  req.userId = decodedToken._id;
   next();
 };
 
