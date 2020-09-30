@@ -28,7 +28,7 @@ app.use(cookieParser());
 // });
 app.use(
   cors({
-    origin: false,
+    origin: "http://example.com",
   })
 );
 
