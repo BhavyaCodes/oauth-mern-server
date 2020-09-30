@@ -28,7 +28,7 @@ app.use(cookieParser());
 // });
 app.use(
   cors({
-    origin: "http://example.com",
+    origin: "http://localhost:3000",
   })
 );
 
