@@ -11,7 +11,7 @@ const feedRoutes = require("./routes/feed");
 const app = express();
 
 const keys = require("./config/keys");
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.set("trust proxy", true);
 app.use(express.json());
