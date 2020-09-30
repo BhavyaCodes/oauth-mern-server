@@ -31,7 +31,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
       keys.jwtSecret
       // { expiresIn: "1h" }
     );
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
     res.cookie("isLoggedIn", "1");
     return res.redirect("/");
   }
@@ -48,8 +48,8 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     keys.jwtSecret
     // { expiresIn: "1h" }
   );
+  res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
   res.cookie("isLoggedIn", "1");
-  res.cookie("token", token);
   res.redirect("/");
 };
 
