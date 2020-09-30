@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 
 app.set("trust proxy", true);
 app.use(express.json());
-app.use(cookieParser());
+
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "null");
 //   res.setHeader(
@@ -31,7 +31,7 @@ app.use(
     origin: false,
   })
 );
-
+app.use(cookieParser());
 app.use(authRoutes);
 
 app.get("/", (req, res, next) => {
