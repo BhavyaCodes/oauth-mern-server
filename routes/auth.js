@@ -6,13 +6,13 @@ const isAuth = require("../middleware/isAuth");
 
 const router = express.Router();
 
-router.get("/auth/google", authController.getGoogleAuth);
-
 router.get(
-  "/auth/google/callback",
+  "/auth/google",
   proxy("https://oauth-mern-client.vercel.app"),
-  authController.getGoogleAuthCallback
+  authController.getGoogleAuth
 );
+
+router.get("/auth/google/callback", authController.getGoogleAuthCallback);
 
 router.get("/api/logout", authController.getLogout);
 
