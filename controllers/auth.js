@@ -28,7 +28,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
       {
         _id: existingUser._id,
       },
-      keys.jwtSecret
+      keys.jwtSecret,
       { expiresIn: "1h" }
     );
     res.cookie("token", token, {
@@ -49,7 +49,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     {
       _id: savedUser._id,
     },
-    keys.jwtSecret
+    keys.jwtSecret,
     { expiresIn: "1h" }
   );
   res.cookie("token", token, {
