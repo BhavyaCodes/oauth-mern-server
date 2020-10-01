@@ -63,9 +63,9 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
 
 exports.getLogout = (req, res, next) => {
   res.clearCookie("token");
-  res.status(200).send();
+  res.status(200).json({});
 };
 
 exports.getIsLoggedIn = (req, res, next) => {
-  res.status(200).send();
+  res.status(200).json({});
 };
