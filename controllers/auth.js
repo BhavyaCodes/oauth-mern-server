@@ -38,7 +38,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     });
     res.cookie("isLoggedIn", "1", { maxAge: 60000 });
     res.cookie("asd", "dfgh", { SameSite: "Lax" });
-    return res.redirect(process.env.CLIENT_URL);
+    return res.redirect("/");
   }
   const user = new User({
     googleId: decoded.payload.sub,
@@ -60,7 +60,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
   });
   res.cookie("asd", "dfgh", { SameSite: "Lax" });
   res.cookie("isLoggedIn", "1", { maxAge: 60000 });
-  res.redirect(process.env.CLIENT_URL);
+  res.redirect("/");
 };
 
 exports.getLogout = (req, res, next) => {
