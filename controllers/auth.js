@@ -31,8 +31,12 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
       keys.jwtSecret
       // { expiresIn: "1h" }
     );
-    res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
-    res.cookie("isLoggedIn", "1");
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "Lax",
+      maxAge: 60000,
+    });
+    res.cookie("isLoggedIn", "1", { maxAge: 60000 });
     return res.redirect("/");
   }
   const user = new User({
@@ -48,8 +52,12 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     keys.jwtSecret
     // { expiresIn: "1h" }
   );
-  res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
-  res.cookie("isLoggedIn", "1");
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "Lax",
+    maxAge: 60000,
+  });
+  res.cookie("isLoggedIn", "1", { maxAge: 60000 });
   res.redirect("/");
 };
 
