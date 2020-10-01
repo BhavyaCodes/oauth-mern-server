@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "example.com",
+    origin: "oauth-mern-client.vercel.app",
     allowedHeaders: "Content-Type",
   })
 );
