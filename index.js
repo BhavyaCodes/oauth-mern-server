@@ -32,6 +32,10 @@ app.get("/api/ping", (req, res, next) => {
   res.json({ ping: "pong" });
 });
 
+app.get("/api/testgoogle", (req, res, next) => {
+  res.redirect("https://www.google.com");
+});
+
 app.use("/api", userRoutes);
 app.use("/api", feedRoutes);
 
