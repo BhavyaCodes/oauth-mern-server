@@ -19,7 +19,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: "oauth-mern-client.vercel.app",
-    allowedHeaders: "Content-Type",
   })
 );
 app.use(cookieParser());
