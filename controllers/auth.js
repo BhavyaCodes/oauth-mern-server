@@ -37,7 +37,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
       maxAge: 60000,
     });
     res.cookie("isLoggedIn", "1", { maxAge: 60000 });
-    return res.redirect("/");
+    return res.redirect(process.env.CLIENT_URL);
   }
   const user = new User({
     googleId: decoded.payload.sub,
@@ -58,7 +58,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     maxAge: 60000,
   });
   res.cookie("isLoggedIn", "1", { maxAge: 60000 });
-  res.redirect("/");
+  res.redirect(process.env.CLIENT_URL);
 };
 
 exports.getLogout = (req, res, next) => {
