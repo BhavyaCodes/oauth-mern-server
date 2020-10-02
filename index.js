@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-// const cors = require("cors");
+const cors = require("cors");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
@@ -11,27 +11,17 @@ const feedRoutes = require("./routes/feed");
 const app = express();
 
 const keys = require("./config/keys");
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.set("trust proxy", true);
 app.use(express.json());
-app.use(cookieParser());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "null");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-// app.use(
-//   cors({
-//     origin: false,
-//   })
-// );
 
+app.use(
+  cors({
+    origin: "oauth-mern-client.vercel.app",
+  })
+);
+app.use(cookieParser());
 app.use(authRoutes);
 
 app.get("/", (req, res, next) => {
@@ -40,6 +30,10 @@ app.get("/", (req, res, next) => {
 
 app.get("/api/ping", (req, res, next) => {
   res.json({ ping: "pong" });
+});
+
+app.get("/api/testgoogle", (req, res, next) => {
+  res.redirect("https://www.google.com");
 });
 
 app.use("/api", userRoutes);

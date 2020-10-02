@@ -6,7 +6,7 @@ const User = require("../models/user");
 
 exports.getGoogleAuth = async (req, res, next) => {
   res.redirect(
-    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
+    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.CLIENT_URL}/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
   );
 };
 
@@ -16,7 +16,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     code,
     client_id: keys.googleClientID,
     client_secret: keys.googleClientSecret,
-    redirect_uri: "http://localhost:3000/auth/google/callback",
+    redirect_uri: `${process.env.CLIENT_URL}/auth/google/callback`,
     grant_type: "authorization_code",
   });
   const decoded = jwt.decode(data.data.id_token, { complete: true });
@@ -28,11 +28,16 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
       {
         _id: existingUser._id,
       },
-      keys.jwtSecret
-      // { expiresIn: "1h" }
+      keys.jwtSecret,
+      { expiresIn: "1h" }
     );
-    res.cookie("token", token);
-    res.cookie("isLoggedIn", "1");
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "Lax",
+      maxAge: 3600000,
+      secure: true,
+    });
+    res.cookie("isLoggedIn", "1", { maxAge: 3600000 });
     return res.redirect("/");
   }
   const user = new User({
@@ -45,19 +50,24 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     {
       _id: savedUser._id,
     },
-    keys.jwtSecret
-    // { expiresIn: "1h" }
+    keys.jwtSecret,
+    { expiresIn: "1h" }
   );
-  res.cookie("isLoggedIn", "1");
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "Lax",
+    maxAge: 3600000,
+    secure: true,
+  });
+  res.cookie("isLoggedIn", "1", { maxAge: 3600000 });
   res.redirect("/");
 };
 
 exports.getLogout = (req, res, next) => {
   res.clearCookie("token");
-  res.status(200).send();
+  res.status(200).json({});
 };
 
 exports.getIsLoggedIn = (req, res, next) => {
-  res.status(200).send();
+  res.status(200).json({});
 };

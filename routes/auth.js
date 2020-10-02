@@ -1,4 +1,5 @@
 const express = require("express");
+const proxy = require("express-http-proxy");
 
 const authController = require("../controllers/auth");
 const isAuth = require("../middleware/isAuth");
