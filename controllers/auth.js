@@ -6,7 +6,7 @@ const User = require("../models/user");
 
 exports.getGoogleAuth = async (req, res, next) => {
   res.redirect(
-    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.API_URL}/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
+    `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.CLIENT_URL}/auth/google/callback&prompt=consent&response_type=code&client_id=${keys.googleClientID}&scope=email%20openid%20profile&access_type=offline`
   );
 };
 
@@ -16,7 +16,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     code,
     client_id: keys.googleClientID,
     client_secret: keys.googleClientSecret,
-    redirect_uri: `${process.env.API_URL}/auth/google/callback`,
+    redirect_uri: `${process.env.CLIENT_URL}/auth/google/callback`,
     grant_type: "authorization_code",
   });
   const decoded = jwt.decode(data.data.id_token, { complete: true });
