@@ -34,10 +34,10 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "Lax",
-      maxAge: 60000,
+      maxAge: 3600000,
+      secure: true,
     });
-    res.cookie("isLoggedIn", "1", { maxAge: 60000 });
-    res.cookie("asd", "dfgh", { SameSite: "Lax" });
+    res.cookie("isLoggedIn", "1", { maxAge: 3600000 });
     return res.redirect("/");
   }
   const user = new User({
@@ -56,10 +56,10 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
   res.cookie("token", token, {
     httpOnly: true,
     sameSite: "Lax",
-    maxAge: 60000,
+    maxAge: 3600000,
+    secure: true,
   });
-  res.cookie("asd", "dfgh", { SameSite: "Lax" });
-  res.cookie("isLoggedIn", "1", { maxAge: 60000 });
+  res.cookie("isLoggedIn", "1", { maxAge: 3600000 });
   res.redirect("/");
 };
 
