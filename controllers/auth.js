@@ -60,7 +60,7 @@ exports.getGoogleAuthCallback = async (req, res, next) => {
   });
   res.cookie("asd", "dfgh", { SameSite: "Lax" });
   res.cookie("isLoggedIn", "1", { maxAge: 60000 });
-  res.redirect(process.env.CLIENT_URL);
+  res.redirect("/");
 };
 
 exports.getLogout = (req, res, next) => {
